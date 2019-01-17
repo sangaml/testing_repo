@@ -39,16 +39,16 @@
       }
     }
   },
-  "variables": {
-    "azureStorageLinkedServiceName": "Tutorial4_AzureStorageLinkedService",
-    "azureSqlDatabaseLinkedServiceName": "Tutorial4_AzureSqlDatabaseLinkedService",
-    "azureSqlDataWareHouseLinkedServiceName": "Tutorial4_AzureSqlDataWarehouseLinkedService",
-    "inputDatasetName": "Tutorial4_InputSqlDataset",
-    "outputDatasetName": "Tutorial4_OutputSqlDataWarehouseDataset",
-    "pipelineName": "Tutorial2-CopyFromSqlToSqlDwPipeline",
-    "pipelineName2": "Tutorial2-TriggerCopyPipeline",
+ "variables": {
+    "azureStorageLinkedServiceName": "AzureStorageLinkedService",
+    "azureSqlDatabaseLinkedServiceName": "AzureSqlDatabaseLinkedService",
+    "azureSqlDataWareHouseLinkedServiceName": "AzureSqlDataWarehouseLinkedService",
+    "inputDatasetName": "InputSqlDataset",
+    "outputDatasetName": "OutputSqlDataWarehouseDataset",
+    "pipelineName": "CopyFromSqlToSqlDwPipeline",
+    "pipelineName2": "TriggerCopyPipeline",
     "leftBracket": "["
-  },
+ },
   "resources": [
     {
       "name": "[parameters('dataFactoryName')]",
