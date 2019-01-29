@@ -51,6 +51,7 @@
     "vmSize": "Standard_A1",
     "networkSecurityGroupName": "nsgrule",
     "secRulesname": "secrule",
+    "secRulesname1": "secrule1",
     "virtualNetworkName": "nifivnet",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]"
   },
