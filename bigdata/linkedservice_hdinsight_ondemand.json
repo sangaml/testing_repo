@@ -1,0 +1,70 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataFactoryName": {
+            "type": "string",
+            "defaultValue": "lkjhgfds"
+        },
+        "accesskey": {
+            "type": "securestring",
+            "defaultValue": "oDYHoyulu6mzx2k3PuimL/ryIyibNwBt7Wd+gF+YTrg="
+        },
+        "clusterPassword": {
+            "type": "securestring",
+            "defaultValue": "Password@123"
+        },
+        "clusterSshPassword": {
+            "type": "securestring",
+            "defaultValue": "Password@123"
+        }
+    },
+    "variables": { },
+    "resources": [
+        {
+            "name": "[concat(parameters('dataFactoryName'),'/hadoopls1ls')]",
+            "type": "Microsoft.DataFactory/factories/linkedservices",
+            "apiVersion": "2018-06-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "type": "HDInsightOnDemand",
+                "typeProperties": {
+                    "clusterType": "hadoop",
+                    "clusterSize": 2,
+                    "timeToLive": "00:05:00",
+                    "version": "3.6",
+                    "hostSubscriptionId": "4ff8750b-e2fa-4db8-84c8-86abd50d3868",
+                    "clusterResourceGroup": "sangam",
+                    "servicePrincipalId": "226d0c4c-4b98-41e4-8ff0-0ef11d1e54f4",
+                    "servicePrincipalKey": {
+                        "value": "[parameters('accesskey')]",
+                        "type": "SecureString"
+                    },
+                    "osType": "Linux",
+                    "tenant": "c160a942-c869-429f-8a96-f8c8296d57db",
+                    "clusterNamePrefix": "",
+                    "clusterUserName": "admin123",
+                    "clusterPassword": {
+                        "value": "[parameters('clusterPassword')]",
+                        "type": "SecureString"
+                    },
+                    "clusterSshUserName": "sshuser",
+                    "clusterSshPassword": {
+                        "value": "[parameters('clusterSshPassword')]",
+                        "type": "SecureString"
+                    },
+                    "additionalLinkedServiceNames": [
+                        {
+                            "referenceName": "AzureBlobstoragels",
+                            "type": "LinkedServiceReference"
+                        }
+                    ],
+                    "linkedServiceName": {
+                        "referenceName": "AzureBlobstoragels",
+                        "type": "LinkedServiceReference"
+                    }
+                }
+            }
+        }
+    ]
+}
