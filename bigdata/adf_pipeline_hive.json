@@ -1,0 +1,50 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataFactoryName": {
+            "type": "string",
+            "defaultValue": "lkjhgfds"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('dataFactoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('dataFactoryName'), '/hivepipeline1')]",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "activities": [
+                    {
+                        "name": "test", 
+                        "type": "HDInsightHive",
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "typeProperties": {
+                            "scriptPath": "adfgetstarted/hivescripts/hivescript.hql",
+                            "defines": {
+                                "Output": "wasb://adfgetstarted@mnbvcfghj.blob.core.windows.net/outputfolder112/"
+                            },
+                            "scriptLinkedService": {
+                                "referenceName": "AzureBlobstoragels",
+                                "type": "LinkedServiceReference"
+                            }
+                        },
+                        "linkedServiceName": {
+                            "referenceName": "hadoopls1ls",
+                            "type": "LinkedServiceReference"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
