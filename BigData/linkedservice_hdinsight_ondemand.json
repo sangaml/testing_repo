@@ -44,7 +44,7 @@
                     "clusterResourceGroup": "sangam",
                     "servicePrincipalId": "[parameters('servicePrincipalId')]",
                     "servicePrincipalKey": {
-                        "value": "[parameters('accesskey')]",
+                        "value": "[parameters('spkey')]",
                         "type": "SecureString"
                     },
                     "osType": "Linux",
