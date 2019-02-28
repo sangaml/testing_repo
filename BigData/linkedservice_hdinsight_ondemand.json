@@ -20,9 +20,6 @@
         "tenant": {
             "type": "string"
         },
-        "clusterSshPassword": {
-            "type": "securestring"
-        },
         "ClusterUserName": {
            "type": "securestring" 
         }
