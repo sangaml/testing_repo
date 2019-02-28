@@ -9,8 +9,7 @@
             "type": "securestring"
         },
         "clusterPassword": {
-            "type": "securestring",
-            "defaultValue": "Password@123"
+            "type": "securestring"
         },
         "servicePrincipalId": {
             "type": "string"
@@ -22,8 +21,10 @@
             "type": "string"
         },
         "clusterSshPassword": {
-            "type": "securestring",
-            "defaultValue": "Password@123"
+            "type": "securestring"
+        },
+        "ClusterUserName": {
+           "type": "securestring" 
         }
     },
     "variables": { },
@@ -50,14 +51,14 @@
                     "osType": "Linux",
                     "tenant": "[parameters('tenant')]",
                     "clusterNamePrefix": "",
-                    "clusterUserName": "admin123",
+                    "clusterUserName": "[parameters('ClusterUserName')]",
                     "clusterPassword": {
                         "value": "[parameters('clusterPassword')]",
                         "type": "SecureString"
                     },
                     "clusterSshUserName": "sshuser",
                     "clusterSshPassword": {
-                        "value": "[parameters('clusterSshPassword')]",
+                        "value": "[parameters('clusterPassword')]",
                         "type": "SecureString"
                     },
                     "additionalLinkedServiceNames": [
