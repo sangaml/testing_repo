@@ -21,6 +21,55 @@
                 "typeProperties": {
                     "connectionString": "[parameters('sqlseverkey')]"
                 }
+            }  
+        },
+        {
+            "name": "[concat(parameters('dataFactoryName'),'/azuresqldetaset')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.DataFactory/factories/', parameters('dataFactoryName'), '/linkedservices/lsazuresql')]"
+            ],
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "lsazuresql",
+                    "type": "LinkedServiceReference"
+                },
+                "type": "SqlServerTable",
+                "structure": [
+                    {
+                        "name": "DAYOFMONTH",
+                        "type": "String"
+                    },
+                    {
+                        "name": "DAYOFWEEK",
+                        "type": "String"
+                    },
+                    {
+                        "name": "CARRIER",
+                        "type": "String"
+                    },
+                    {
+                        "name": "ORIGINAIRPORTID",
+                        "type": "String"
+                    },
+                    {
+                        "name": "DESTAIRPORTID",
+                        "type": "String"
+                    },
+                    {
+                        "name": "DEPDELAY",
+                        "type": "String"
+                    },
+                    {
+                        "name": "ARRDELAY",
+                        "type": "String"
+                    }
+                ],
+                "typeProperties": {
+                    "tableName": "[dbo].[Sparkdata]"
+                }
             }
         }
     ]
