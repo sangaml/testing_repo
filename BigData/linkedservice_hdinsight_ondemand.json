@@ -22,6 +22,12 @@
         },
         "ClusterUserName": {
            "type": "securestring" 
+        },
+        "Instancesize": {
+           "type": "string" 
+        },
+        "resourcesgpname": {
+           "type": "string" 
         }
     },
     "variables": { },
@@ -35,11 +41,11 @@
                 "type": "HDInsightOnDemand",
                 "typeProperties": {
                     "clusterType": "hadoop",
-                    "clusterSize": 2,
+                    "clusterSize": "[parameters('Instancesize')]",
                     "timeToLive": "00:05:00",
                     "version": "3.6",
                     "hostSubscriptionId": "[parameters('hostSubscriptionId')]",
-                    "clusterResourceGroup": "sangam",
+                    "clusterResourceGroup": "[parameters('resourcesgpname')]",
                     "servicePrincipalId": "[parameters('servicePrincipalId')]",
                     "servicePrincipalKey": {
                         "value": "[parameters('spkey')]",
