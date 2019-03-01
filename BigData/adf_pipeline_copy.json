@@ -1,0 +1,78 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataFactoryName": {
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "[concat(parameters('dataFactoryName'),'/copypipeline_blob_sql')]",
+            "type": "Microsoft.DataFactory/factories/pipelines",
+            "apiVersion": "2018-06-01",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "activities": [
+                    {
+                        "name": "copy_blob_sql",
+                        "type": "Copy",
+                        "policy": {
+                            "timeout": "7.00:00:00",
+                            "retry": 0,
+                            "retryIntervalInSeconds": 30,
+                            "secureOutput": false,
+                            "secureInput": false
+                        },
+                        "userProperties": [
+                            {
+                                "name": "Source",
+                                "value": "spark/flights.csv"
+                            },
+                            {
+                                "name": "Destination",
+                                "value": "['[dbo].[Sparkdata]']"
+                            }
+                        ],
+                        "typeProperties": {
+                            "source": {
+                                "type": "BlobSource",
+                                "recursive": false
+                            },
+                            "sink": {
+                                "type": "SqlSink",
+                                "writeBatchSize": 10000
+                            },
+                            "enableStaging": false,
+                            "translator": {
+                                "type": "TabularTranslator",
+                                "columnMappings": {
+                                    "DayofMonth": "DAYOFMONTH",
+                                    "DayOfWeek": "DAYOFWEEK",
+                                    "Carrier": "CARRIER",
+                                    "OriginAirportID": "ORIGINAIRPORTID",
+                                    "DestAirportID": "DESTAIRPORTID",
+                                    "DepDelay": "DEPDELAY",
+                                    "ArrDelay": "ARRDELAY"
+                                }
+                            }
+                        },
+                        "inputs": [
+                            {
+                                "referenceName": "azureblobdetaset",
+                                "type": "DatasetReference"
+                            }
+                        ],
+                        "outputs": [
+                            {
+                                "referenceName": "azuresqldetaset",
+                                "type": "DatasetReference"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
