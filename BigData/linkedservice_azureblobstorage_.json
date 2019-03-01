@@ -25,6 +25,82 @@
                     }
                 }
             }
+        },
+        {
+            "name": "[concat(parameters('dataFactoryName'),'/AzureBlobstoragels')]",
+            "apiVersion": "2018-06-01",
+            "type": "Microsoft.DataFactory/factories/linkedservices",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "type": "AzureBlobStorage",
+                "typeProperties": {
+                    "connectionString": {
+                        "type": "SecureString",
+                        "value": "[parameters('accesskey')]"
+                    }
+                }
+            }
+        },
+        {
+            "name": "[concat(parameters('dataFactoryName'),'/azureblobdetaset')]",
+            "type": "Microsoft.DataFactory/factories/datasets",
+            "apiVersion": "2018-06-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.DataFactory/factories/', parameters('dataFactoryName'), '/linkedservices/AzureBlobstoragels')]"
+            ],
+            "properties": {
+                "linkedServiceName": {
+                    "referenceName": "AzureBlobstoragels",
+                    "type": "LinkedServiceReference"
+                },
+                "type": "AzureBlob",
+                "structure": [
+                    {
+                        "name": "DayofMonth",
+                        "type": "String"
+                    },
+                    {
+                        "name": "DayOfWeek",
+                        "type": "String"
+                    },
+                    {
+                        "name": "Carrier",
+                        "type": "String"
+                    },
+                    {
+                        "name": "OriginAirportID",
+                        "type": "String"
+                    },
+                    {
+                        "name": "DestAirportID",
+                        "type": "String"
+                    },
+                    {
+                        "name": "DepDelay",
+                        "type": "String"
+                    },
+                    {
+                        "name": "ArrDelay",
+                        "type": "String"
+                    }
+                ],
+                "typeProperties": {
+                    "format": {
+                        "type": "TextFormat",
+                        "columnDelimiter": ",",
+                        "rowDelimiter": "",
+                        "quoteChar": "\"",
+                        "nullValue": "\\N",
+                        "encodingName": null,
+                        "treatEmptyAsNull": true,
+                        "skipLineCount": 0,
+                        "firstRowAsHeader": true
+                    },
+                    "fileName": "flights.csv",
+                    "folderPath": "spark"
+                }
+            }
         }
     ]
 }
