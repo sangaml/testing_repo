@@ -3,13 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "dataFactoryName": {
-            "type": "string",
-            "defaultValue": "mnbvcxz"
+            "type": "string"
         }
     },
-    "variables": {
-        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('dataFactoryName'))]"
-    },
+    "variables": {},
     "resources": [
         {
             "name": "[concat(parameters('dataFactoryName'), '/hivepipeline1')]",
