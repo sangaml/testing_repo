@@ -68,7 +68,7 @@
                     }
                 ],
                 "typeProperties": {
-                    "tableName": "[dbo].[Sparkdata]"
+                    "tableName": "['[dbo].[Sparkdata]']"
                 }
             }
         }
