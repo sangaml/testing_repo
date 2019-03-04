@@ -20,7 +20,7 @@
   tasks:
   - name: Deploy ARM template
     azure_rm_deployment:
-    location: "{{ var_location }}"
+    location: "eastus2"
       state: present
       parameters: 
           dataFactoryName: 
