@@ -1,0 +1,40 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataFactoryName": {
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "[concat(parameters('dataFactoryName'),'/copy_trigger')]",
+            "type": "Microsoft.DataFactory/factories/triggers",
+            "apiVersion": "2018-06-01",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [],
+            "properties": {
+                "type": "ScheduleTrigger",
+                "typeProperties": {
+                    "recurrence": {
+                        "frequency": "Hour",
+                        "interval": 1,
+                        "startTime": "2019-1-28T00:00:00",
+                        "endTime": "2020-1-29T00:00:00",
+                        "timeZone": "UTC"
+                    }
+                },
+                "pipelines": [
+                    {
+                        "pipelineReference": {
+                            "type": "PipelineReference",
+                            "referenceName": "copypipeline_blob_sql"
+                        },
+                        "parameters": {}
+                    }
+                ]
+            }
+        }
+    ]
+}
