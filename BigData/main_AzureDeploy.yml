@@ -19,6 +19,7 @@
   tasks:
   - name: Deploy ARM template
     azure_rm_deployment:
+    deployment_name: "DeployMainTemp"
       state: present
       parameters: 
           dataFactoryName: 
