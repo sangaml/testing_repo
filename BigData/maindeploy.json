@@ -1,0 +1,244 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataFactoryName": {
+            "type": "string"
+        },
+        "Storagekey": {
+            "type": "securestring"
+        },
+        "spkey": {
+            "type": "securestring"
+        },
+        "servicePrincipalId": {
+            "type": "string"
+        },
+        "hostSubscriptionId": {
+            "type": "string"
+        },
+        "tenant": {
+            "type": "string"
+        },
+        "ClusterUserName": {
+            "type": "string"
+        },
+        "ClusterPassword": {
+            "type": "securestring"
+        },
+        "sqlseverkey": {
+            "type": "securestring",
+            "defaultvalue": "integrated security=False;data source=daatagenda.database.windows.net;initial catalog=sangamdb;user id=admin123;password=Password@123"
+        },
+        "environment": {
+            "type": "string",
+            "allowedValues": [
+                "Development",
+                "Production"
+            ]
+        },
+        "resourcesgpname": {
+            "type": "string"
+        }
+    },
+    "variables": {
+        "dataFactoryName": "[parameters('dataFactoryName')]",
+        "accesskey": "[parameters('Storagekey')]",
+        "spkey": "[parameters('spkey')]",
+        "servicePrincipalId": "[parameters('servicePrincipalId')]",
+        "hostSubscriptionId": "[parameters('hostSubscriptionId')]",
+        "tenant": "[parameters('tenant')]",
+        "ClusterUserName": "[parameters('ClusterUserName')]",
+        "ClusterPassword": "[parameters('ClusterPassword')]",
+        "sqlseverkey": "[parameters('sqlseverkey')]",
+        "Development": 2,
+        "Production": 4,
+        "Instancesize": "[if(equals(parameters('environment'), 'Development'), variables('Development'), variables('Production'))]",
+        "resourcesgpname": "[parameters('resourcesgpname')]"
+
+    },
+    "resources": [
+        {
+            "name": "adf",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/createadf.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[variables('dataFactoryName')]"
+                    }
+                },
+                "mode": "Incremental"
+            }
+        },
+        {
+            "name": "lsazureblob",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/linkedservice_azureblobstorage_.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "accesskey": {
+                        "value": "[variables('accesskey')]"
+                    },
+                    "dataFactoryName": {
+                        "value": "[variables('dataFactoryName')]"
+                    }
+                },
+                "mode": "Incremental"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', 'adf')]"
+            ]
+        },
+        {
+            "name": "lsondemandhdinsight",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/linkedservice_hdinsight_ondemand.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "spkey": {
+                        "value": "[variables('spkey')]"
+                    },
+                    "servicePrincipalId": {
+                        "value": "[variables('servicePrincipalId')]"
+                    },
+                    "hostSubscriptionId": {
+                        "value": "[variables('hostSubscriptionId')]"
+                    },
+                    "tenant": {
+                        "value": "[variables('tenant')]"
+                    },
+                    "dataFactoryName": {
+                        "value": "[variables('dataFactoryName')]"
+                    },
+                    "ClusterUserName": {
+                        "value": "[variables('ClusterUserName')]"
+                    },
+                    "ClusterPassword": {
+                        "value": "[variables('ClusterPassword')]"
+                    },
+                    "Instancesize": {
+                        "value": "[variables('Instancesize')]"
+                    },
+                    "resourcesgpname": {
+                        "value": "[variables('resourcesgpname')]"
+                    }
+                },
+                "mode": "Incremental"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', 'lsazureblob')]",
+                "[concat('Microsoft.Resources/deployments/', 'adf')]"
+            ]
+        },
+        {
+            "name": "hivepipeline",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/adf_pipeline_hive.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[variables('dataFactoryName')]"
+                    }
+                },
+                "mode": "Incremental"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', 'lsazureblob')]",
+                "[concat('Microsoft.Resources/deployments/', 'lsondemandhdinsight')]",
+                "[concat('Microsoft.Resources/deployments/', 'adf')]"
+            ]
+        },
+        {
+            "name": "lssqlserver",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/lssqlserver.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[variables('dataFactoryName')]"
+                    },
+                    "sqlseverkey": {
+                        "value": "[variables('sqlseverkey')]"
+                    }
+                },
+                "mode": "Incremental"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', 'lsazureblob')]",
+                "[concat('Microsoft.Resources/deployments/', 'lsondemandhdinsight')]",
+                "[concat('Microsoft.Resources/deployments/', 'adf')]",
+                "[concat('Microsoft.Resources/deployments/', 'hivepipeline')]"
+            ] 
+        },
+        {
+            "name": "copypipeline",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/adf_pipeline_copy.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[variables('dataFactoryName')]"
+                    }
+                },
+                "mode": "Incremental"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', 'lsazureblob')]",
+                "[concat('Microsoft.Resources/deployments/', 'lsondemandhdinsight')]",
+                "[concat('Microsoft.Resources/deployments/', 'adf')]",
+                "[concat('Microsoft.Resources/deployments/', 'hivepipeline')]",
+                "[concat('Microsoft.Resources/deployments/', 'lssqlserver')]"
+            ] 
+        },
+        {
+            "name": "copy_trigger",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/scheduletrigger.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "dataFactoryName": {
+                        "value": "[variables('dataFactoryName')]"
+                    }
+                },
+                "mode": "Incremental"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', 'lsazureblob')]",
+                "[concat('Microsoft.Resources/deployments/', 'lsondemandhdinsight')]",
+                "[concat('Microsoft.Resources/deployments/', 'adf')]",
+                "[concat('Microsoft.Resources/deployments/', 'hivepipeline')]",
+                "[concat('Microsoft.Resources/deployments/', 'lssqlserver')]",
+                "[concat('Microsoft.Resources/deployments/', 'copypipeline')]"
+            ] 
+        }
+    ]
+}
