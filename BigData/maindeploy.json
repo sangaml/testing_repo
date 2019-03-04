@@ -27,8 +27,7 @@
             "type": "securestring"
         },
         "sqlseverkey": {
-            "type": "securestring",
-            "defaultvalue": "integrated security=False;data source=daatagenda.database.windows.net;initial catalog=sangamdb;user id=admin123;password=Password@123"
+            "type": "securestring"
         },
         "environment": {
             "type": "string",
