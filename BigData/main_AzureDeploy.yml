@@ -45,4 +45,4 @@
         value: "{{ var_environment }}"
       resourcesgpname: 
         value: "{{ var_resourcesgpname }}"                 
-    template_link: "{{ templateLink }}"
+    template_link: "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/maindeploy.json"
