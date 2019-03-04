@@ -1,0 +1,48 @@
+- name: CREATE ARM Deployment PLAYBOOK
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    dataFactoryName: "{{ ansible_env.dataFactoryName }}",
+    Storagekey: "{{ ansible_env.Storagekey }}",
+    spkey: "{{ ansible_env.spkey }}",
+    servicePrincipalId: "{{ ansible_env.servicePrincipalId }}",
+    hostSubscriptionId: "{{ ansible_env.hostSubscriptionId }}",
+    tenant: "{{ ansible_env.tenant }}",
+    ClusterUserName: "{{ ansible_env.ClusterUserName }}",
+    ClusterPassword: "{{ ansible_env.ClusterPassword }}",
+    sqlseverkey: "{{ ansible_env.sqlseverkey }}",
+    environment: "{{ ansible_env.environment }}",
+    resourcesgpname: "{{ ansible_env.resourcesgpname }}"
+    templateLink: 'https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/maindeploy.json'
+
+  tasks:
+  - name: Deploy ARM template
+    azure_rm_deployment:
+      state: present
+      resource_group_name: '{{ resgrp }}'
+      location: '{{ location }}'
+      parameters: 
+          dataFactoryName: 
+            value: "{{ var_dataFactoryName }}",
+          Storagekey: 
+            value: "{{ var_Storagekey }}",
+          spkey: 
+            value: "{{ var_spkey }}",
+          servicePrincipalId: 
+            value: "{{ var_servicePrincipalId }}",
+          hostSubscriptionId: 
+            value: "{{ var_hostSubscriptionId }}",
+          tenant: 
+            value: "{{ var_tenant }}",
+          ClusterUserName: 
+            value: "{{ var_ClusterUserName }}",
+          ClusterPassword: 
+            value: "{{ var_ClusterPassword }}",
+          sqlseverkey: 
+            value: "{{ var_sqlseverkey }}",
+          environment: 
+            value: "{{ var_environment }}",
+          resourcesgpname: 
+            value: "{{ var_resourcesgpname }}"                 
+      template_link: '{{ templateLink }}'
