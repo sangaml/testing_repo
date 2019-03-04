@@ -14,12 +14,13 @@
     sqlseverkey: "{{ ansible_env.sqlseverkey }}"
     environment: "{{ ansible_env.environment }}"
     resourcesgpname: "{{ ansible_env.resourcesgpname }}"
+    location: eastus2
     templateLink: 'https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/maindeploy.json'
 
   tasks:
   - name: Deploy ARM template
     azure_rm_deployment:
-    deployment_name: "DeployMainTemp"
+    location: "{{ var_location }}"
       state: present
       parameters: 
           dataFactoryName: 
