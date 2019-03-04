@@ -45,4 +45,4 @@
             value: "{{ var_environment }}"
           resourcesgpname: 
             value: "{{ var_resourcesgpname }}"                 
-      template_link: '{{ templateLink }}'
+    template_link: "{{ templateLink }}"
