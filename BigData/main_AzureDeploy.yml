@@ -22,7 +22,7 @@
     azure_rm_deployment:
     location: "eastus2"
     state: present
-      parameters: 
+    parameters: 
           dataFactoryName: 
             value: "{{ var_dataFactoryName }}"
           Storagekey: 
