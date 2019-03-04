@@ -23,26 +23,26 @@
     location: "eastus2"
     state: present
     parameters: 
-          dataFactoryName: 
-            value: "{{ var_dataFactoryName }}"
-          Storagekey: 
-            value: "{{ var_Storagekey }}"
-          spkey: 
-            value: "{{ var_spkey }}"
-          servicePrincipalId: 
-            value: "{{ var_servicePrincipalId }}"
-          hostSubscriptionId: 
-            value: "{{ var_hostSubscriptionId }}"
-          tenant: 
-            value: "{{ var_tenant }}"
-          ClusterUserName: 
-            value: "{{ var_ClusterUserName }}"
-          ClusterPassword: 
-            value: "{{ var_ClusterPassword }}"
-          sqlseverkey: 
-            value: "{{ var_sqlseverkey }}"
-          environment: 
-            value: "{{ var_environment }}"
-          resourcesgpname: 
-            value: "{{ var_resourcesgpname }}"                 
+      dataFactoryName: 
+        value: "{{ var_dataFactoryName }}"
+      Storagekey: 
+        value: "{{ var_Storagekey }}"
+      spkey: 
+        value: "{{ var_spkey }}"
+      servicePrincipalId: 
+        value: "{{ var_servicePrincipalId }}"
+      hostSubscriptionId: 
+        value: "{{ var_hostSubscriptionId }}"
+      tenant: 
+        value: "{{ var_tenant }}"
+      ClusterUserName: 
+        value: "{{ var_ClusterUserName }}"
+      ClusterPassword: 
+        value: "{{ var_ClusterPassword }}"
+      sqlseverkey: 
+        value: "{{ var_sqlseverkey }}"
+      environment: 
+        value: "{{ var_environment }}"
+      resourcesgpname: 
+        value: "{{ var_resourcesgpname }}"                 
     template_link: "{{ templateLink }}"
