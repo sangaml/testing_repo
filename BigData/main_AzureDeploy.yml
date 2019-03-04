@@ -20,8 +20,6 @@
   - name: Deploy ARM template
     azure_rm_deployment:
       state: present
-      resource_group_name: '{{ resgrp }}'
-      location: '{{ location }}'
       parameters: 
           dataFactoryName: 
             value: "{{ var_dataFactoryName }}"
