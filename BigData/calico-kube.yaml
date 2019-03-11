@@ -336,7 +336,7 @@ spec:
             # The location of the Kubernetes API.  Use the default Kubernetes
             # service for API access.
             - name: K8S_API
-              value: "https://172.16.0.4:443"
+              value: "https://kubernetes.default:443"
             # Choose which controllers to run.
             - name: ENABLED_CONTROLLERS
               value: policy,profile,workloadendpoint,node
