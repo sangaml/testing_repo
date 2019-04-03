@@ -26,9 +26,9 @@
                             "secureInput": false
                         },
                         "typeProperties": {
-                            "scriptPath": "adfgetstarted/hivescripts/hivescript.hql",
+                            "scriptPath": "hive/partitionweblog.hql",
                             "defines": {
-                                "Output": "wasb://adfgetstarted@mnbvcfghj.blob.core.windows.net/outputfolder112/"
+                                "Output": "wasb://hive@hivecode.core.windows.net/outputfolder"
                             },
                             "scriptLinkedService": {
                                 "referenceName": "AzureBlobstoragels",
