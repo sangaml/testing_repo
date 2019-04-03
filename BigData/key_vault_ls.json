@@ -1,0 +1,27 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "dataFactoryName": {
+            "type": "string"
+        },
+        "baseUrl": {
+            "type": "securestring"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "name": "[concat(parameters('dataFactoryName'),'/AzureKeyVaultLinkedService')]",
+            "apiVersion": "2018-06-01",
+            "type": "Microsoft.DataFactory/factories/linkedservices",
+            "location": "[resourceGroup().location]",
+            "properties": {
+                "type": "AzureKeyVault",
+                "typeProperties": {
+                    "baseUrl": "[parameters('baseUrl')]"
+                }
+            }
+        }
+    ]
+}
