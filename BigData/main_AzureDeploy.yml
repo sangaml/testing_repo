@@ -1,48 +1,52 @@
-- name: CREATE ARM Deployment PLAYBOOK
-  hosts: localhost
+---
+- hosts: localhost
   connection: local
-  gather_facts: False
+  gather_facts: no
   vars:
-    dataFactoryName: "{{ ansible_env.dataFactoryName }}"
-    Storagekey: "{{ ansible_env.Storagekey }}"
-    spkey: "{{ ansible_env.spkey }}"
-    servicePrincipalId: "{{ ansible_env.servicePrincipalId }}"
-    hostSubscriptionId: "{{ ansible_env.hostSubscriptionId }}"
-    tenant: "{{ ansible_env.tenant }}"
-    ClusterUserName: "{{ ansible_env.ClusterUserName }}"
-    ClusterPassword: "{{ ansible_env.ClusterPassword }}"
-    sqlseverkey: "{{ ansible_env.sqlseverkey }}"
-    environment: "{{ ansible_env.environment }}"
-    resourcesgpname: "{{ ansible_env.resourcesgpname }}"
-    location: eastus2
-    templateLink: 'https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/maindeploy.json'
-
+      dataFactoryName: "{{ ansible_env.dataFactoryName }}"
+      Storagekey: "{{ ansible_env.Storagekey }}"
+      spkey: "{{ ansible_env.spkey }}"
+      servicePrincipalId: "{{ ansible_env.servicePrincipalId }}"
+      hostSubscriptionId: "{{ ansible_env.hostSubscriptionId }}"
+      tenant: "{{ ansible_env.tenant }}"
+      ClusterUserName: "{{ ansible_env.ClusterUserName }}"
+      ClusterPassword: "{{ ansible_env.ClusterPassword }}"
+      sqlseverkey: "{{ ansible_env.sqlseverkey }}"
+      environment: "{{ ansible_env.environment }}"
+      resourcesgpname: "{{ ansible_env.resourcesgpname }}"
+      location: eastus2
+      templateLink: 'https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/maindeploy.json'
   tasks:
-  - name: Deploy ARM template
-    azure_rm_deployment:
-    location: "eastus2"
-    state: present
-    parameters: 
-      dataFactoryName: 
-        value: "{{ var_dataFactoryName }}"
-      Storagekey: 
-        value: "{{ var_Storagekey }}"
-      spkey: 
-        value: "{{ var_spkey }}"
-      servicePrincipalId: 
-        value: "{{ var_servicePrincipalId }}"
-      hostSubscriptionId: 
-        value: "{{ var_hostSubscriptionId }}"
-      tenant: 
-        value: "{{ var_tenant }}"
-      ClusterUserName: 
-        value: "{{ var_ClusterUserName }}"
-      ClusterPassword: 
-        value: "{{ var_ClusterPassword }}"
-      sqlseverkey: 
-        value: "{{ var_sqlseverkey }}"
-      environment: 
-        value: "{{ var_environment }}"
-      resourcesgpname: 
-        value: "{{ var_resourcesgpname }}"                 
-    template_link: "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/maindeploy.json"
+    - name: Deploy ARM template
+      azure_rm_deployment:
+        subscription_id: "{{ hostSubscriptionId }}"
+        client_id: "{{ servicePrincipalId }}"
+        tenant: "{{ tenant }}"
+        secret: "{{ spkey }}"
+        resource_group_name: sangam
+        location: "eastus2"
+        state: present
+        parameters: 
+          dataFactoryName: 
+            value: "{{ dataFactoryName }}"
+          Storagekey: 
+            value: "{{ Storagekey }}"
+          spkey: 
+            value: "{{ spkey }}"
+          servicePrincipalId: 
+            value: "{{ servicePrincipalId }}"
+          hostSubscriptionId: 
+            value: "{{ hostSubscriptionId }}"
+          tenant: 
+            value: "{{ tenant }}"
+          ClusterUserName: 
+            value: "{{ ClusterUserName }}"
+          ClusterPassword: 
+            value: "{{ ClusterPassword }}"
+          sqlseverkey: 
+            value: "{{ sqlseverkey }}"
+          resourcesgpname: 
+            value: "{{ resourcesgpname }}"
+          environment:
+            value: "Production"
+        template_link: "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/maindeploy.json"
