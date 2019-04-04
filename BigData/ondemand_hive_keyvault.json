@@ -67,12 +67,12 @@
                     },
                     "additionalLinkedServiceNames": [
                         {
-                            "referenceName": "AzureBlobstoragels1",
+                            "referenceName": "AzureBlobstoragels",
                             "type": "LinkedServiceReference"
                         }
                     ],
                     "linkedServiceName": {
-                        "referenceName": "AzureBlobstoragels1",
+                        "referenceName": "AzureBlobstoragels",
                         "type": "LinkedServiceReference"
                     }
                 }
