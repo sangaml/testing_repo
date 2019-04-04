@@ -12,7 +12,7 @@
     "variables": {},
     "resources": [
         {
-            "name": "[concat(parameters('dataFactoryName'),'/AzureBlobstoragels1')]",
+            "name": "[concat(parameters('dataFactoryName'),'/AzureBlobstoragels')]",
             "apiVersion": "2018-06-01",
             "type": "Microsoft.DataFactory/factories/linkedservices",
             "location": "[resourceGroup().location]",
