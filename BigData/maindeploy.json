@@ -11,9 +11,6 @@
         "Storagekey": {
             "type": "securestring"
         },
-        "spkey": {
-            "type": "securestring"
-        },
         "servicePrincipalId": {
             "type": "string"
         },
