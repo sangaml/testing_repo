@@ -4,6 +4,7 @@
   gather_facts: no
   vars:
       dataFactoryName: "{{ ansible_env.dataFactoryName }}"
+      baseUrl: "{{ ansible_env.baseUrl }}"
       Storagekey: "{{ ansible_env.Storagekey }}"
       spkey: "{{ ansible_env.spkey }}"
       servicePrincipalId: "{{ ansible_env.servicePrincipalId }}"
@@ -29,6 +30,8 @@
         parameters: 
           dataFactoryName: 
             value: "{{ dataFactoryName }}"
+          baseUrl:
+            value: "{{ baseUrl }}"
           Storagekey: 
             value: "{{ Storagekey }}"
           spkey: 
