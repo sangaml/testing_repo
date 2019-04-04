@@ -5,9 +5,6 @@
         "dataFactoryName": {
             "type": "string"
         },
-        "spkey": {
-            "type": "securestring"
-        },
         "clusterPassword": {
             "type": "securestring"
         },
