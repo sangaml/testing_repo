@@ -5,6 +5,9 @@
         "dataFactoryName": {
             "type": "string"
         },
+        "baseUrl": {
+            "type": "string"
+        },
         "Storagekey": {
             "type": "securestring"
         },
@@ -42,6 +45,7 @@
     },
     "variables": {
         "dataFactoryName": "[parameters('dataFactoryName')]",
+        "baseUrl": "[parameters('baseUrl')]",
         "accesskey": "[parameters('Storagekey')]",
         "spkey": "[parameters('spkey')]",
         "servicePrincipalId": "[parameters('servicePrincipalId')]",
@@ -75,12 +79,32 @@
             }
         },
         {
+            "name": "keyvault_ls",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2017-05-10",
+            "properties": {
+                "templateLink": {
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/key_vault_ls.json",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "baseUrl": {
+                        "value": "[variables('baseUrl')]"
+                    }
+                },
+                "mode": "Incremental"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Resources/deployments/', 'adf')]"
+            ] 
+        },
+        {
             "name": "lsazureblob",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2017-05-10",
             "properties": {
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/linkedservice_azureblobstorage_.json",
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/blob_storage_keyvault_ls.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -94,7 +118,8 @@
                 "mode": "Incremental"
             },
             "dependsOn": [
-                "[concat('Microsoft.Resources/deployments/', 'adf')]"
+                "[concat('Microsoft.Resources/deployments/', 'adf')]",
+                "[concat('Microsoft.Resources/deployments/', 'keyvault_ls')]"
             ]
         },
         {
@@ -103,7 +128,7 @@
             "apiVersion": "2017-05-10",
             "properties": {
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/linkedservice_hdinsight_ondemand.json",
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/ondemand_hive_keyvault.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -139,7 +164,8 @@
             },
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', 'lsazureblob')]",
-                "[concat('Microsoft.Resources/deployments/', 'adf')]"
+                "[concat('Microsoft.Resources/deployments/', 'adf')]",
+                "[concat('Microsoft.Resources/deployments/', 'keyvault_ls')]"
             ]
         },
         {
@@ -161,7 +187,8 @@
             "dependsOn": [
                 "[concat('Microsoft.Resources/deployments/', 'lsazureblob')]",
                 "[concat('Microsoft.Resources/deployments/', 'lsondemandhdinsight')]",
-                "[concat('Microsoft.Resources/deployments/', 'adf')]"
+                "[concat('Microsoft.Resources/deployments/', 'adf')]",
+                "[concat('Microsoft.Resources/deployments/', 'keyvault_ls')]"
             ]
         },
         {
@@ -170,7 +197,7 @@
             "apiVersion": "2017-05-10",
             "properties": {
                 "templateLink": {
-                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/lssqlserver.json",
+                    "uri": "https://raw.githubusercontent.com/sangaml/testing_repo/master/BigData/sqlserver_keyvault_ls.json",
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
@@ -187,7 +214,8 @@
                 "[concat('Microsoft.Resources/deployments/', 'lsazureblob')]",
                 "[concat('Microsoft.Resources/deployments/', 'lsondemandhdinsight')]",
                 "[concat('Microsoft.Resources/deployments/', 'adf')]",
-                "[concat('Microsoft.Resources/deployments/', 'hivepipeline')]"
+                "[concat('Microsoft.Resources/deployments/', 'hivepipeline')]",
+                "[concat('Microsoft.Resources/deployments/', 'keyvault_ls')]"
             ] 
         },
         {
@@ -211,7 +239,8 @@
                 "[concat('Microsoft.Resources/deployments/', 'lsondemandhdinsight')]",
                 "[concat('Microsoft.Resources/deployments/', 'adf')]",
                 "[concat('Microsoft.Resources/deployments/', 'hivepipeline')]",
-                "[concat('Microsoft.Resources/deployments/', 'lssqlserver')]"
+                "[concat('Microsoft.Resources/deployments/', 'lssqlserver')]",
+                "[concat('Microsoft.Resources/deployments/', 'keyvault_ls')]"
             ] 
         },
         {
@@ -236,7 +265,8 @@
                 "[concat('Microsoft.Resources/deployments/', 'adf')]",
                 "[concat('Microsoft.Resources/deployments/', 'hivepipeline')]",
                 "[concat('Microsoft.Resources/deployments/', 'lssqlserver')]",
-                "[concat('Microsoft.Resources/deployments/', 'copypipeline')]"
+                "[concat('Microsoft.Resources/deployments/', 'copypipeline')]",
+                "[concat('Microsoft.Resources/deployments/', 'keyvault_ls')]"
             ] 
         }
     ]
