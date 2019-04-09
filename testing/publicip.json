@@ -18,10 +18,10 @@
             }
         }
     ],
-    "output": {
+    "outputs": {
         "publicip": {
-            "type": "string",
-            "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))).IpAddress]"
+          "type": "string",
+          "value": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddressName'))]"
         }
-    }
+      }
 }
