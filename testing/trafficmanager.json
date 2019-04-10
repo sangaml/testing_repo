@@ -1,52 +1,52 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "trafficdnsName": {
-      "type": "string",
-      "metadata": {
-        "description": "Relative DNS name for the traffic manager profile, resulting FQDN will be <uniqueDnsName>.trafficmanager.net, must be globally unique."
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "trafficdnsName": {
+        "type": "string",
+        "metadata": {
+          "description": "Relative DNS name for the traffic manager profile, resulting FQDN will be <uniqueDnsName>.trafficmanager.net, must be globally unique."
+        }
+      },
+      "trafficmanagername": {
+        "type": "string"
+      },
+      "publicIPAddressName": {
+        "type": "string"
       }
     },
-    "trafficmanagername": {
-      "type": "string"
-    },
-    "targetResourceId": {
-      "type": "string"
-    }
-  },
-  "variables": {},
-  "resources": [
-    {
-      "apiVersion": "2015-11-01",
-      "type": "Microsoft.Network/trafficManagerProfiles",
-      "name": "[tolower(parameters('trafficmanagername'))]",
-      "location": "global",
-      "properties": {
-        "profileStatus": "Enabled",
-        "trafficRoutingMethod": "Priority",
-        "dnsConfig": {
-          "relativeName": "[parameters('trafficdnsName')]",
-          "ttl": 30
-        },
-        "monitorConfig": {
-          "protocol": "HTTP",
-          "port": 80,
-          "path": "/"
-        },
-        "endpoints": [
-          {
-            "name": "endpoint1",
-            "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
-            "properties": {
-              "targetResourceId": "[parameters('targetResourceId')]",
-              "endpointStatus": "Enabled",
-              "weight": 1
+    "variables": {},
+    "resources": [
+      {
+        "apiVersion": "2015-11-01",
+        "type": "Microsoft.Network/trafficManagerProfiles",
+        "name": "[tolower(parameters('trafficmanagername'))]",
+        "location": "global",
+        "properties": {
+          "profileStatus": "Enabled",
+          "trafficRoutingMethod": "Priority",
+          "dnsConfig": {
+            "relativeName": "[parameters('trafficdnsName')]",
+            "ttl": 30
+          },
+          "monitorConfig": {
+         "protocol": "HTTP",
+            "port": 80,
+            "path": "/"
+          },
+          "endpoints": [
+            {
+              "name": "endpoint1",
+              "type": "Microsoft.Network/trafficManagerProfiles/azureEndpoints",
+              "properties": {
+                "targetResourceId":  "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddressName'))]",
+                "endpointStatus": "Enabled",
+                "weight": 1
+              }
             }
-          }
-        ]
+          ]
+        }
       }
-    }
-  ],
-  "outputs": {}
-}
+    ],
+    "outputs": {}
+  }
