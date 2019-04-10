@@ -4,6 +4,9 @@
     "parameters": {
         "publicIPAddressName": {
             "type": "string"
+        },
+        "domainNameLabel": {
+            "type": "string"
         }
     },
     "variables": {},
@@ -14,7 +17,10 @@
             "name": "[parameters('publicIPAddressName')]",
             "location": "[resourceGroup().location]",
             "properties": {
-                "publicIPAllocationMethod": "Dynamic"
+                "publicIPAllocationMethod": "Dynamic",
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('domainNameLabel')]"
+                }
             }
         }
     ],
