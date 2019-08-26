@@ -75,6 +75,12 @@
             "metadata": {
                 "description": "Size of the VM"
             }
+        },
+        "numberOfInstances": {
+            "type": "string",
+            "metadata": {
+                "description": "Number of nodes"
+            }
         }
     },
     "variables": {
@@ -85,7 +91,7 @@
         "publicIPAddressType": "Dynamic",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), variables ('subnetName'))]",
         "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]",
-        "numberOfInstances": 3,
+        "numberOfInstances": "[parameters('numberOfInstances')]",
         "networkSecurityGroupName": "mynsg",
         "secRulesname": "mysecrules"
     },
