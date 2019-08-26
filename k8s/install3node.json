@@ -77,7 +77,7 @@
             }
         },
         "numberOfInstances": {
-            "type": "string",
+            "type": "int",
             "metadata": {
                 "description": "Number of nodes"
             }
