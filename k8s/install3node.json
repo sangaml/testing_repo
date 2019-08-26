@@ -85,7 +85,7 @@
         "publicIPAddressType": "Dynamic",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), variables ('subnetName'))]",
         "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]",
-        "numberOfInstances": 2,
+        "numberOfInstances": 3,
         "networkSecurityGroupName": "mynsg",
         "secRulesname": "mysecrules"
     },
@@ -111,6 +111,104 @@
                             "priority": 100,
                             "direction": "Inbound"
                         }
+                    },
+                    {
+                        "name": "Kubernetes API server",
+                        "properties": {
+                            "description": "This is the first rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "6443",
+                            "destinationPortRange": "6443",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "etcd server client API",
+                        "properties": {
+                            "description": "This is the first rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "2379-2380",
+                            "destinationPortRange": "2379-2380",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 120,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "etcd server client API",
+                        "properties": {
+                            "description": "This is the first rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "10250",
+                            "destinationPortRange": "10250",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 130,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "etcd server client API",
+                        "properties": {
+                            "description": "This is the first rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "10251",
+                            "destinationPortRange": "10251",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 140,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "etcd server client API",
+                        "properties": {
+                            "description": "This is the first rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "10252",
+                            "destinationPortRange": "10252",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 150,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
+                        "name": "Kubelet API",
+                        "properties": {
+                            "description": "This is the first rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "10250",
+                            "destinationPortRange": "10250",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 100,
+                            "direction": "Outbound"
+                        }
+                    },
+                    {
+                        "name": "NodePort Services",
+                        "properties": {
+                            "description": "This is the first rule",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "30000-32767",
+                            "destinationPortRange": "30000-32767",
+                            "sourceAddressPrefix": "*",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 110,
+                            "direction": "Outbound"
+                        }
                     }
                 ]
             }
@@ -132,7 +230,7 @@
                 "sourceAddressPrefix": "*",
                 "destinationAddressPrefix": "*",
                 "access": "Allow",
-                "priority": 135,
+                "priority": 160,
                 "direction": "Inbound"
             }
         },
