@@ -91,7 +91,6 @@
         "publicIPAddressType": "Dynamic",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), variables ('subnetName'))]",
         "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]",
-        "numberOfInstances": "[parameters('numberOfInstances')]",
         "networkSecurityGroupName": "mynsg",
         "secRulesname": "mysecrules"
     },
@@ -243,11 +242,11 @@
         {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[concat(parameters('publicIPAddressName'), copyindex())]",
+            "name": "[concat(parameters('publicIPAddressName'),copyindex())]",
             "location": "[resourceGroup().location]",
             "copy": {
                 "name": "pipLoop",
-                "count": "[variables('numberOfInstances')]"
+                "count": "[parameters('numberOfInstances')]"
             },
             "properties": {
                 "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
@@ -287,7 +286,7 @@
             "location": "[resourceGroup().location]",
             "copy": {
                 "name": "nicLoop",
-                "count": "[variables('numberOfInstances')]"
+                "count": "[parameters('numberOfInstances')]"
             },
             "dependsOn": [
                 "[concat('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
@@ -316,7 +315,7 @@
             "name": "[concat(parameters('vmNamePrefix'), copyindex())]",
             "copy": {
                 "name": "virtualMachineLoop",
-                "count": "[variables('numberOfInstances')]"
+                "count": "[parameters('numberOfInstances')]"
             },
             "location": "[resourceGroup().location]",
             "dependsOn": [
@@ -363,7 +362,7 @@
             "location": "[resourceGroup().location]",
             "copy": {
                 "name": "virtualMachineExtentionLoop",
-                "count": "[variables('numberOfInstances')]"
+                "count": "[parameters('numberOfInstances')]"
             },
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/', parameters('vmNamePrefix'),copyindex())]"
