@@ -85,7 +85,7 @@
         "publicIPAddressType": "Dynamic",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), variables ('subnetName'))]",
         "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressName'))]",
-        "numberOfInstances": 3,
+        "numberOfInstances": 2,
         "networkSecurityGroupName": "mynsg",
         "secRulesname": "mysecrules"
     },
